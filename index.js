@@ -37,6 +37,10 @@ io.on('connection', (socket) => {
         socket.to(socketId).emit('incoming-call', { from: fromEmail, offer });
     });
 
+    socket.on('ice-candidate', (data) => {
+        socket.broadcast.emit('ice-candidate', { candidate: data.candidate });
+    });
+    
     socket.on('call-accepted', (data) => {
         const { emailId, ans } = data;
         const socketId = emailToSocketMapping.get(emailId);
