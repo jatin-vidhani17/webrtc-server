@@ -1,11 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {Server} = require('socket.io');
+const http = require('http');
 
-const io = new Server({
-    cors : true,
-});
 const app = express();
+const server = http.createServer(app); // Create an HTTP server
+const io = new Server(server, {
+    cors: {
+        origin: 'https://webrtc-client-fawn.vercel.app', // Explicitly allow the client origin
+        methods: ['GET', 'POST'],
+        credentials: true // Allow credentials if needed
+    }
+});
 
 app.use(bodyParser.json());
 
